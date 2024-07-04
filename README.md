@@ -1,2 +1,0 @@
-# Frontend_HACKATHON_6th_UMC
-Frontend_HACKATHON_6th_UMC
