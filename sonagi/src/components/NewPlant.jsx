@@ -1,5 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 const PlantCard = styled.div`
   background-color: white;
@@ -20,13 +20,14 @@ const PlantName = styled.div`
   font-size: 16px;
   font-weight: 600;
   padding: 10px;
-  background: #EEEEEE;
 
+  background: #eeeeee;
 `;
 
-const NewPlant = ({ name, image }) => {
+const NewPlant = ({ name, image, onClick }) => {
   return (
-    <PlantCard>
+    <PlantCard onClick={onClick}>
+
       <PlantImage src={image} alt={name} />
       <PlantName>{name}</PlantName>
     </PlantCard>
