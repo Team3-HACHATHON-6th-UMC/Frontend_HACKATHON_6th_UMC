@@ -1,7 +1,7 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-import MyPlant from '../components/MyPlant';
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import MyPlant from "../components/MyPlant";
 
 const ScrollContainer = styled.div`
   display: flex;
@@ -12,11 +12,9 @@ const ScrollContainer = styled.div`
 `;
 
 const Home = () => {
-
   return (
     <>
-        <MyPlant/>
-        <MyPlant/>
+      <MyPlant />
     </>
   );
 };

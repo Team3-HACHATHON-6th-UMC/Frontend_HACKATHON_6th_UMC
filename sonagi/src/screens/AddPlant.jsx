@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import styled from "styled-components";
 import NewPlant from "../components/NewPlant";
@@ -43,11 +42,11 @@ const Body = styled.div`
 `;
 
 const Title = styled.div`
-width: 200px;
-margin-top: 20px;
+  width: 200px;
+  margin-top: 20px;
   font-size: 20px;
   font-weight: 600;
-`
+`;
 
 const Input = styled.input`
   margin-top: 20px;
@@ -135,7 +134,6 @@ const AddPlant = () => {
         )
       )}
     </>
-
   );
 };
 
