@@ -5,7 +5,7 @@ const PlantCard = styled.div`
   background-color: white;
   border-radius: 10px;
   box-shadow: 0px 4px 8px 0px #3e7a3b4d;
-  width: 150px;
+  width: 160px;
   margin: 10px;
   overflow: hidden;
 `;
@@ -23,10 +23,10 @@ const PlantName = styled.div`
   background: #eeeeee;
 `;
 
-const NewPlant = ({ name, image, onClick }) => {
+const NewPlant = ({ name, imageUrl, onClick }) => {
   return (
     <PlantCard onClick={onClick}>
-      <PlantImage src={image} alt={name} />
+      <PlantImage src={imageUrl} alt={name} />
       <PlantName>{name}</PlantName>
     </PlantCard>
   );

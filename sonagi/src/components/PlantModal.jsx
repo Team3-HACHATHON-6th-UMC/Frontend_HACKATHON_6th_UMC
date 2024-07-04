@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import axios from "axios";
 import tear from "../assets/images/tear.png";
 import sun1 from "../assets/images/sun1.png";
 import sun2 from "../assets/images/sun2.png";
@@ -64,7 +65,7 @@ const Img = styled.img`
   width: 100%;
 `;
 
-const Comment = styled.p`
+const Description = styled.p`
   color: black;
   font-size: 13px;
   margin: 0 15px;
@@ -124,14 +125,30 @@ const Input = styled.input`
   padding: 0 5px;
 `;
 
-const PlantModal = ({ onClick, plant }) => {
+const PlantModal = ({ onClick, plantId }) => {
   const [showNext, setShowNext] = useState(false);
   const [selectedButtons, setSelectedButtons] = useState({
     window: null,
     sunlight: null,
   });
-
+  const [plant, setPlant] = useState(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    axios
+      .get(`http://3.38.247.228:8080/plants/8`)
+      .then((response) => {
+        if (response.data.isSuccess) {
+          setPlant(response.data.result);
+          console.log(response);
+        } else {
+          console.error(response.data.message);
+        }
+      })
+      .catch((error) => {
+        console.error("There was an error fetching the plant data!", error);
+      });
+  }, [plantId]);
 
   const handleButtonClick = (type, value) => {
     setSelectedButtons((prevState) => ({
@@ -149,20 +166,24 @@ const PlantModal = ({ onClick, plant }) => {
   };
 
   const handleAddPlant = () => {
-    navigate("/");
+    navigate("/home");
   };
+
+  if (!plant) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <ModalWrapper>
       <Modal>
-        <Img src={plant.imageUrl} alt={plant.name} />
+        <Img src={plant.imageUrl} alt={plant.plantName} />
         <XButton onClick={onClick}>X</XButton>
         <InfoContainer>
-          <H1>{plant.name}</H1>
+          <H1>{plant.plantName}</H1>
           <Container>
             <Span style={{ marginRight: "40px" }}>물 주는 간격</Span>
             <img src={tear} style={{ height: "20px", width: "auto" }} />
-            <Span style={{ marginLeft: "20px" }}>1.5주에 한번</Span>
+            <Span style={{ marginLeft: "20px" }}>{plant.cycle}일에 한번</Span>
             <img
               src={q}
               style={{ marginLeft: "20px", height: "15px", width: "auto" }}
@@ -170,19 +191,23 @@ const PlantModal = ({ onClick, plant }) => {
           </Container>
           <Container>
             <Span style={{ marginRight: "60px" }}>햇빛 정도</Span>
-            <img src={sun3} />
+            <img
+              src={
+                plant.sunLevel === 1
+                  ? sun1
+                  : plant.sunLevel === 2
+                  ? sun2
+                  : plant.sunLevel === 3
+                  ? sun3
+                  : sun4
+              }
+              alt="sun level"
+            />
           </Container>
         </InfoContainer>
         {!showNext ? (
           <>
-            <Comment>
-              몬스테라는 실내에서도 잘 자라는 식물로, 크고 독특한 구멍이 있는 큰
-              잎이 특징입니다. 열대 우림이 원산지인 몬스테라는 높은 습도와 밝은
-              간접 빛을 좋아합니다. 물을 줄 때는 흙이 약간 건조해질 때까지
-              기다리는 것이 좋습니다. 과습을 피하기 위해 배수가 잘 되는 토양을
-              사용하세요. 잎에 먼지가 쌓이면 부드러운 천으로 닦아주면 광합성
-              효율이 올라갑니다.
-            </Comment>
+            <Description>{plant.description}</Description>
             <ButtonContainer>
               <Button onClick={goNext}>식물 추가하기</Button>
             </ButtonContainer>

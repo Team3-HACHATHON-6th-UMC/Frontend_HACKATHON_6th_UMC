@@ -32,7 +32,7 @@ const NavBar = () => {
 
   return (
     <NavContainer>
-      <Logo onClick={() => navigate("/")}>
+      <Logo onClick={() => navigate("/home")}>
         <span style={{ fontSize: "20px", color: "#428066" }}>&#9829;</span>{" "}
         green
       </Logo>

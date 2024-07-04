@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import NewPlant from "../components/NewPlant";
-import ex from "./Ex"; // ex 데이터를 가져옵니다.
+import axios from "axios"; 
 import PlantModal from "../components/PlantModal";
+
 const Body = styled.div`
   width: 100%;
   height: 100%;
@@ -10,7 +11,7 @@ const Body = styled.div`
 `;
 
 const Title = styled.div`
-  width: 200px;
+  width: 150px;
   margin-top: 20px;
   font-size: 20px;
   font-weight: 600;
@@ -34,10 +35,33 @@ const Container = styled.div`
 `;
 
 const AddPlant = () => {
-  const [plants, setPlants] = useState(ex);
+  const [plants, setPlants] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [selectedPlant, setSelectedPlant] = useState(null);
+
+  useEffect(() => {
+    // API 요청 함수
+    const fetchPlants = async () => {
+      try {
+        
+        const response = await axios.get('http://3.38.247.228:8080/plants'); 
+        //console.log('Responseeee:', response); // 디버깅 정보 추가
+        
+        if (response.data.isSuccess) { // 성공 여부 확인
+          setPlants(response.data.result.plants); // API 응답 형식에 맞게 데이터 설정
+          
+          console.log("Success:", response.data.result);
+        } else {
+          console.error('Failed: ', response.data.message);
+        }
+      } catch (error) {
+        console.error('Failed to fetch plants:', error);
+      }
+    };
+
+    fetchPlants();
+  }, []);
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
@@ -56,22 +80,6 @@ const AddPlant = () => {
     setShowModal(false); // 모달 숨김
   };
 
-  /*
-  useEffect(() => {
-    // API 요청 함수
-    const fetchPlants = async () => {
-      try {
-        const response = await axios.get('https://api.example.com/plants'); // 실제 API URL로 변경
-        setPlants(response.data);
-      } catch (error) {
-        console.error('Failed to fetch plants', error);
-      }
-    };
-
-    fetchPlants();
-  }, []);
-  */
-
   return (
     <>
       {!showModal ? (
@@ -86,9 +94,9 @@ const AddPlant = () => {
           <Container>
             {filteredPlants.map((plant) => (
               <NewPlant
-                key={plant.id}
+                key={plant.id} // API에서의 고유 식별자 사용
                 name={plant.name}
-                image={plant.imageUrl}
+                imageUrl={plant.imageUrl} // API의 이미지 URL 속성명에 맞게 수정
                 onClick={() => handlePlantClick(plant)}
               />
             ))}
@@ -96,7 +104,7 @@ const AddPlant = () => {
         </Body>
       ) : (
         selectedPlant && (
-          <PlantModal onClick={handleCloseModal} plant={selectedPlant} />
+          <PlantModal onClick={handleCloseModal} plant={selectedPlant.id} />
         )
       )}
     </>
