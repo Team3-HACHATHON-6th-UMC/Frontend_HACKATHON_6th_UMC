@@ -17,14 +17,33 @@ const ModalWrapper = styled.div`
   justify-content: center;
 `;
 
-const Container = styled.div`
+const XButton = styled.button`
+  position: absolute;
+  top: 0;
+  right: 0;
+  border: none;
+  background-color: transparent;
+  color: black;
+  margin: 5px;
+  font-size: 15px;
+`;
+
+const Modal = styled.div`
   display: flex;
   flex-direction: column;
-  background: #399b601a;
-  padding: 15px;
-  margin: 15px;
+  background: #eeeeee;
+  width: 90%;
+  height: 90%;
+  min-height: 500px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  position: relative;
+`;
+
+const InfoContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
 `;
 
 const Span = styled.span`
@@ -35,13 +54,14 @@ const Span = styled.span`
 
 const H1 = styled.h1`
   margin-bottom: 10px;
-  font-weight: 700;
+  font-weight: 600;
+  font-size: 25px;
 `;
 
 const Img = styled.img`
   height: 250px;
-  margin: 0 0 15px 0;
   border-radius: 10px;
+  width: 100%;
 `;
 
 const Comment = styled.p`

@@ -20,14 +20,12 @@ const PlantName = styled.div`
   font-size: 16px;
   font-weight: 600;
   padding: 10px;
-
   background: #eeeeee;
 `;
 
 const NewPlant = ({ name, image, onClick }) => {
   return (
     <PlantCard onClick={onClick}>
-
       <PlantImage src={image} alt={name} />
       <PlantName>{name}</PlantName>
     </PlantCard>
