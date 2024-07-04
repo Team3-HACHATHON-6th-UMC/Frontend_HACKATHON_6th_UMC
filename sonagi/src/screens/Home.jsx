@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-//import Calendar from '../components/Calendar';
+import NavBar from '../components/NavBar';
 
 const Container = styled.div`
     display: flex;
@@ -17,9 +17,12 @@ const Container = styled.div`
 const Home = () => {
 
   return (
+    <>
+    <NavBar/>
     <Container>
         <span>Home</span>
     </Container>
+    </>
   );
 };
 
