@@ -2,6 +2,7 @@
 const ex = [
   {
     id: 1,
+
     name: "몬스테라",
     imageUrl:
       "https://img1.daumcdn.net/thumb/R1280x0.fjpg/?fname=http://t1.daumcdn.net/brunch/service/user/5AU5/image/7oHw3DMrgO9_66LHCI3MkoKjY3M.JPG",
@@ -47,6 +48,7 @@ const ex = [
     name: "러브체인",
     imageUrl:
       "https://s3-alpha-sig.figma.com/img/b396/0839/eefc66a1a312ecf8378ed4e19c7f1d13?Expires=1721001600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Z2SnKEJp0Eyi7eTUx6nKUTHVSnoec7oSrNlRJ0xxeLVOiBbvIqJ0wonmcDUFFm3o~LqY-TV0-8asaB9mJpyxlD0M8KDoAAL-HmVYnpk8IZEEx4SAn7G626QlL5Q644kZ8twlB8KQz2novg5rqSJLF05rATTuT6EKIVi8YRv3dUPV1FcCMqpivk8CnuHWv5AQJQDyCfCQmu-7FFEm3MAhtkKmXfUF~h07zCtFNo95Xx-0R4UWOGw4nNj90PRz-gpxQ3g1v1DdilxUGR~Z-11C0hYiYYrGzzrpAFjU8M95G2YaaNcQV9iysjB4CW4hkhTxtMf7YAXVYHph6uKsL~PJmg__",
+
   },
 ];
 

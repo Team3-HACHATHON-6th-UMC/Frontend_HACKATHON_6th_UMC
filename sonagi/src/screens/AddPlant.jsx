@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import styled from "styled-components";
 import NewPlant from "../components/NewPlant";
@@ -35,8 +36,39 @@ const Container = styled.div`
   justify-content: center;
 `;
 
+const Body = styled.div`
+  width: 100%;
+  height: 100%;
+  text-align: center;
+`;
+
+const Title = styled.div`
+width: 200px;
+margin-top: 20px;
+  font-size: 20px;
+  font-weight: 600;
+`
+
+const Input = styled.input`
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 350px;
+  height: 35px;
+  border-radius: 20px;
+  border: none;
+  box-shadow: 0px 4px 8px 0px #3e7a3b4d;
+  text-indent: 5%;
+`;
+
+const Container = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+`;
+
 const AddPlant = () => {
   const [plants, setPlants] = useState(ex);
+
   const [searchTerm, setSearchTerm] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [selectedPlant, setSelectedPlant] = useState(null);
@@ -103,6 +135,7 @@ const AddPlant = () => {
         )
       )}
     </>
+
   );
 };
 
