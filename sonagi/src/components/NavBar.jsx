@@ -25,7 +25,7 @@ const NavBar = () => {
 
   return (
     <NavContainer>
-        <Button onClick={() => navigate('/')}>식집사</Button>
+        <span onClick={() => navigate('/')}>식집사</span>
         <LeftColumn>
             <Button onClick={() => navigate('/cal')}>
                 <FontAwesomeIcon icon={faCalendarDays} />
