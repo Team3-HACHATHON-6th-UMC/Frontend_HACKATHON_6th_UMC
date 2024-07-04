@@ -1,15 +1,12 @@
 import Calendar from "react-calendar";
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import { useSelector, useDispatch } from "react-redux";
-import { addItem } from "../redux/calendarSlice";
+import { useSelector } from "react-redux";
 import "react-calendar/dist/Calendar.css";
 import moment from "moment";
 
-const CalendarComponent = () => {
-  const [selectedDate, setSelectedDate] = useState(new Date());
+const CalendarComponent = ({ selectedDate, setSelectedDate }) => {
   const events = useSelector((state) => state.calendar.events);
-  const dispatch = useDispatch();
 
   const getEventsForDate = (date) => {
     return events
@@ -21,43 +18,34 @@ const CalendarComponent = () => {
       ));
   };
 
-  const handleAddEvent = () => {
-    const newEvent = { date: selectedDate.toDateString(), event: "New Event" };
-    dispatch(addItem(newEvent));
-  };
-
   return (
-    <div>
-      <StyledCalendar
-        locale="en"
-        onChange={setSelectedDate}
-        value={selectedDate}
-        next2Label={null}
-        prev2Label={null}
-        tileContent={({ date, view }) =>
-          view === "month" && getEventsForDate(date)
-        }
-      />
-      <button onClick={handleAddEvent}>Add Event</button>
-    </div>
+    <StyledCalendar
+      locale="en"
+      onChange={setSelectedDate}
+      value={selectedDate}
+      next2Label={null}
+      prev2Label={null}
+      tileContent={({ date, view }) =>
+        view === "month" && getEventsForDate(date)
+      }
+    />
   );
 };
 
 export default CalendarComponent;
 
 const StyledCalendar = styled(Calendar)`
-  width: 100%;
-  background: white;
+  width: 90%;
+  background: none;
   border: none;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   font-family: Arial, Helvetica, sans-serif;
 
   .react-calendar__navigation button {
-    color: #6f48eb;
+    color: #000000;
     min-width: 44px;
     background: none;
-    font-size: 16px;
+    font-size: 20px;
+    font-weight: 500;
     margin-top: 8px;
   }
   //기본 캘린더 한 칸
@@ -72,12 +60,13 @@ const StyledCalendar = styled(Calendar)`
   //오늘
   .react-calendar__tile--now {
     border-radius: 6px;
-    background-color: white;
+    background-color: #ebf5ef;
     & > abbr {
-      width: 18px;
-      background-color: #64954a;
+      width: 20px;
+      height: 20px;
+      background-color: #ffffff;
       border-radius: 50%;
-      color: #ffffff; /* 날짜 숫자를 색*/
+      color: #000000; /* 날짜 숫자를 색*/
     }
   }
   //선택된 것
@@ -86,8 +75,8 @@ const StyledCalendar = styled(Calendar)`
     background: #ffffff;
     & > abbr {
       width: 18px;
-      color: #000000; /* 날짜 숫자를 색*/
-      background-color: #6f48eb;
+      color: #ffffff; /* 날짜 숫자를 색*/
+      background-color: #428066;
       border-radius: 50%;
     }
   }
@@ -95,7 +84,7 @@ const StyledCalendar = styled(Calendar)`
   .event {
     margin-top: 5px;
     font-size: 0.5em;
-    background-color: #6f48eb;
+    background-color: #5e9781;
     color: white;
     border-radius: 5px;
   }
