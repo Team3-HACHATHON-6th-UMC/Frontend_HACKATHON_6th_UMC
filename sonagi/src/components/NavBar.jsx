@@ -11,6 +11,14 @@ const NavContainer = styled.div`
     height: 45px;
 `;
 
+const Logo = styled.span`
+    font-size: 30px;
+    color: #7DB49D;
+    font-family: Inter;
+    font-size: 30px;
+    font-weight: 600;
+`;
+
 const Button = styled.button`
     background-color: transparent;
     border: none;
@@ -25,7 +33,7 @@ const NavBar = () => {
 
   return (
     <NavContainer>
-        <span onClick={() => navigate('/')}>식집사</span>
+        <Logo onClick={() => navigate('/')}><span style={{fontSize:'20px', color:'#428066'}}>&#9829;</span>green</Logo>
         <LeftColumn>
             <Button onClick={() => navigate('/cal')}>
                 <FontAwesomeIcon icon={faCalendarDays} />
