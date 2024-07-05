@@ -5,10 +5,22 @@ import { useSelector } from "react-redux";
 import "react-calendar/dist/Calendar.css";
 import moment from "moment";
 
-const CalendarComponent = ({ selectedDate, setSelectedDate }) => {
+const CalendarComponent = ({ selectedDate, setSelectedDate, mode }) => {
+  // Redux 스토어에서 이벤트 목록을 가져옵니다.
   const events = useSelector((state) => state.calendar.events);
 
   const getEventsForDate = (date) => {
+    if (mode === "diary") {
+      console.log(mode);
+
+      return events
+        .filter((event) => moment(event.date).isSame(moment(date), "day"))
+        .map((event, index) => (
+          <DiaryCheck key={index} className="event">
+            ☑
+          </DiaryCheck>
+        ));
+    } else if (mode === "record") console.log(mode);
     return events
       .filter((event) => moment(event.date).isSame(moment(date), "day"))
       .map((event, index) => (
@@ -74,7 +86,7 @@ const StyledCalendar = styled(Calendar)`
   .react-calendar__tile--active:enabled:focus {
     background: #ffffff;
     & > abbr {
-      width: 18px;
+      width: 20px;
       color: #ffffff; /* 날짜 숫자를 색*/
       background-color: #428066;
       border-radius: 50%;
@@ -88,4 +100,8 @@ const StyledCalendar = styled(Calendar)`
     color: white;
     border-radius: 5px;
   }
+`;
+
+const DiaryCheck = styled.span`
+  width: 14px;
 `;

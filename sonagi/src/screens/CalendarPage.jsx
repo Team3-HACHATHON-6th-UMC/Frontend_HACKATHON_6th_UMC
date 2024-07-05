@@ -1,15 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import CalendarComponent from "../components/CalendarComponent";
 import DiaryModal from "../components/DiaryModal";
 import { useSelector, useDispatch } from "react-redux";
-import { addItem } from "../redux/calendarSlice";
+import { addItem } from "../redux/calendarSlice"; // setItems 추가
+import moment from "moment";
 
 const CalenderPage = () => {
   const [mode, setMode] = useState("record"); // 기본 모드는 record
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const dispatch = useDispatch();
+  const [diaryContent, setDiaryContent] = useState(
+    "오늘의 일기가 없습니다. 위 작성버튼을 눌러 일기를 작성해주세요."
+  );
+  const dispatch = useDispatch(); // useDispatch 훅 사용
 
   const handleModeChange = () => {
     setMode((prevMode) => (prevMode === "record" ? "diary" : "record"));
@@ -23,6 +27,25 @@ const CalenderPage = () => {
     setIsModalOpen(false); // 모달 창 닫기
   };
 
+  const handleEventSubmit = (date, content) => {
+    dispatch(addItem({ date: date.toISOString(), event: content }));
+    setDiaryContent(content); // 일기 내용 업데이트
+  };
+
+  // // 다이어리를 가져와서 Redux 스토어에 저장
+  // useEffect(() => {
+  //   const fetchAndSetDiaries = async () => {
+  //     const diaries = await fetchDiaries(); // 모든 다이어리를 가져옴
+  //     const events = diaries.map((diary) => ({
+  //       date: diary.createdAt,
+  //       event: "☑", // 이벤트 표시용 문자
+  //     }));
+  //     dispatch(setItems(events)); // Redux 스토어에 이벤트 목록 저장
+  //   };
+
+  //   fetchAndSetDiaries();
+  // }, [dispatch]); // 의존성 배열에 dispatch 추가
+
   return (
     <PageContainer>
       <ModeBtnContainer>
@@ -34,14 +57,29 @@ const CalenderPage = () => {
           <CalendarComponent
             selectedDate={selectedDate}
             setSelectedDate={setSelectedDate}
+            mode={mode}
           />
           <TodoWrapper>
-            <Title>🪴성장로그</Title>
+            <TitleContainer>
+              <Title>🪴성장로그</Title>
+              <Time>
+                {moment(selectedDate).format("YYYY")}년{" "}
+                {moment(selectedDate).format("MM")}월{" "}
+                {moment(selectedDate).format("DD")}일
+              </Time>
+            </TitleContainer>
+            <Todo>
+              <PlantName>선재</PlantName>
+              <PlantTodo>
+                <PlantContent>물 주기</PlantContent>
+                <Time>10:37 AM</Time>
+              </PlantTodo>
+            </Todo>
             <Todo>
               <PlantName>선재</PlantName>
               <PlantTodo>
                 <PlantContent>영양제 주기</PlantContent>
-                <PlantTime>10:37 AM</PlantTime>
+                <Time>10:37 AM</Time>
               </PlantTodo>
             </Todo>
           </TodoWrapper>
@@ -51,13 +89,21 @@ const CalenderPage = () => {
           <CalendarComponent
             selectedDate={selectedDate}
             setSelectedDate={setSelectedDate}
+            mode={mode}
           />
           <DiaryWrapper>
-            <Title>🪴오늘의 일기</Title>
+            <TitleContainer>
+              <Title>🪴오늘의 일기</Title>
+              <Time>
+                {moment(selectedDate).format("YYYY")}년{" "}
+                {moment(selectedDate).format("MM")}월{" "}
+                {moment(selectedDate).format("DD")}일
+              </Time>
+            </TitleContainer>
             <DiaryContentContainer>
               <DiaryImg />
               <DiaryContent>
-                <span>어쩌구</span>
+                <span>{diaryContent}</span>
                 <AddDiary onClick={handleAddEvent}>작성하기</AddDiary>
               </DiaryContent>
             </DiaryContentContainer>
@@ -65,7 +111,11 @@ const CalenderPage = () => {
         </Wrapper>
       )}
       {isModalOpen && (
-        <DiaryModal selectedDate={selectedDate} onClose={closeModal} />
+        <DiaryModal
+          onSubmit={handleEventSubmit}
+          selectedDate={selectedDate}
+          onClose={closeModal}
+        />
       )}
     </PageContainer>
   );
@@ -145,13 +195,20 @@ const TodoWrapper = styled.div`
   align-items: baseline;
 `;
 
+const TitleContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
 const Title = styled.span`
   font-family: Inter;
   font-size: 20px;
   font-weight: 600;
   line-height: 28px;
   text-align: left;
-  margin: 10px 0 10px 0;
+  margin: 0px 0 5px 0;
   align-self: flex-start;
 `;
 
@@ -160,6 +217,7 @@ const Todo = styled.div`
   height: 46px;
   border-radius: 10px;
   opacity: 0px;
+  margin-bottom: 10px;
   background: linear-gradient(
     90deg,
     rgba(210, 205, 100, 0.5) 0%,
@@ -195,7 +253,7 @@ const PlantContent = styled.span`
   line-height: 28px;
 `;
 
-const PlantTime = styled.span`
+const Time = styled.span`
   font-size: 10px;
   font-weight: 400;
   line-height: 28px;
@@ -224,11 +282,12 @@ const DiaryContentContainer = styled.div`
 const DiaryImg = styled.img`
   width: 40%;
   max-height: 196px;
-  background-color: #000000;
+  margin-left: 10px;
+  background-color: #90b787;
 `;
 
 const DiaryContent = styled.div`
-  width: 40%;
+  width: 50%;
   max-height: 196px;
   display: flex;
   flex-direction: column;

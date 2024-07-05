@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
 
-const DiaryModal = ({ selectedDate, onClose }) => {
+const DiaryModal = ({ selectedDate, onClose, onSubmit }) => {
   const [content, setContent] = useState("");
   const [image, setImage] = useState(null);
+
+  const dispatch = useDispatch(); // useDispatch 훅 사용
 
   const handleImageChange = (e) => {
     if (e.target.files && e.target.files[0]) {
@@ -33,6 +36,7 @@ const DiaryModal = ({ selectedDate, onClose }) => {
         entry: content,
         image,
       });
+      onSubmit(selectedDate, content); // 이벤트 추가 핸들러 호출
       onClose(); // 모달창 닫기
     } catch (error) {
       alert("다이어리 작성 오류");
