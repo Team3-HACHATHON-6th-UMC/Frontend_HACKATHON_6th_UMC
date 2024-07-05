@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import axios from "axios";
 
 const DiaryModal = ({ selectedDate, onClose }) => {
-  const [diaryEntry, setDiaryEntry] = useState("");
+  const [content, setContent] = useState("");
   const [image, setImage] = useState(null);
 
   const handleImageChange = (e) => {
@@ -11,20 +12,37 @@ const DiaryModal = ({ selectedDate, onClose }) => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // 여기에 서버로 POST 요청을 보내는 로직을 추가하세요.
-    console.log("Diary Entry Submitted:", {
-      date: selectedDate,
-      entry: diaryEntry,
-      image,
-    });
-    onClose(); // 모달창 닫기
+    try {
+      const response = await axios.post(
+        "http://3.38.247.228:8080/diary/?userId=1",
+        {
+          title: content,
+          content: content,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      alert("오늘의 다이어리 작성 완료!");
+      console.log("Diary Entry Submitted:", {
+        date: selectedDate,
+        entry: content,
+        image,
+      });
+      onClose(); // 모달창 닫기
+    } catch (error) {
+      alert("다이어리 작성 오류");
+      console.log(error);
+    }
   };
 
   return (
     <ModalBackdrop>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} method="POST" id="Diary">
         <ModalContainer>
           <Header>
             <Date>{selectedDate.toISOString().split("T")[0]}</Date>
@@ -48,8 +66,8 @@ const DiaryModal = ({ selectedDate, onClose }) => {
           </ImageContainer>
           <TextBox
             placeholder="일기를 작성해주세요"
-            value={diaryEntry}
-            onChange={(e) => setDiaryEntry(e.target.value)}
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
           />
           <SaveButton type="submit">일기 저장하기</SaveButton>
         </ModalContainer>
