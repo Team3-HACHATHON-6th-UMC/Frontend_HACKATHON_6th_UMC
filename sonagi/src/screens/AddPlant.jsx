@@ -104,7 +104,7 @@ const AddPlant = () => {
         </Body>
       ) : (
         selectedPlant && (
-          <PlantModal onClick={handleCloseModal} plant={selectedPlant.id} />
+          <PlantModal onClick={handleCloseModal} selectedPlant={selectedPlant} />
         )
       )}
     </>
