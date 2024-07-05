@@ -22,8 +22,12 @@ const calendarSlice = createSlice({
     addItem: (state, action) => {
       state.events.push(action.payload);
     },
+    setItems: (state, action) => {
+      state.events = action.payload; // 이벤트 목록을 설정하는 리듀서 추가
+    },
   },
 });
 
-export const { addItem } = calendarSlice.actions;
+export const { addItem, setItems } = calendarSlice.actions;
+
 export default calendarSlice.reducer;

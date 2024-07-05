@@ -3,8 +3,9 @@ import styled from "styled-components";
 import CalendarComponent from "../components/CalendarComponent";
 import DiaryModal from "../components/DiaryModal";
 import { useSelector, useDispatch } from "react-redux";
-import { addItem } from "../redux/calendarSlice"; // setItems 추가
 import moment from "moment";
+import { addItem, setItems } from "../redux/calendarSlice"; // setItems 추가
+import axios from "axios"; // axios 추가
 
 const CalenderPage = () => {
   const [mode, setMode] = useState("record"); // 기본 모드는 record
@@ -31,7 +32,27 @@ const CalenderPage = () => {
     dispatch(addItem({ date: date.toISOString(), event: content }));
     setDiaryContent(content); // 일기 내용 업데이트
   };
+  useEffect(() => {
+    const fetchAndSetDiaries = async () => {
+      try {
+        const response = await axios.get(
+          "http://3.38.247.228:8080/diary/diaryList/1"
+        );
+        const diaries = response.data.result.diaries; // 모든 다이어리를 가져옴
+        const events = diaries.map((diary) => ({
+          date: diary.createdAt,
+          event: "☑", // 이벤트 표시용 문자
+        }));
+        dispatch(setItems(events)); // Redux 스토어에 이벤트 목록 저장
+      } catch (error) {
+        console.error("Failed to fetch diaries", error);
+      }
+    };
 
+    if (mode === "diary") {
+      fetchAndSetDiaries();
+    }
+  }, [dispatch, mode]); // 의존성 배열에 dispatch와 mode 추가
   // // 다이어리를 가져와서 Redux 스토어에 저장
   // useEffect(() => {
   //   const fetchAndSetDiaries = async () => {
