@@ -125,7 +125,7 @@ const Input = styled.input`
   padding: 0 5px;
 `;
 
-const PlantModal = ({ onClick, plantId }) => {
+const PlantModal = ({ onClick, selectedPlant }) => {
   const [showNext, setShowNext] = useState(false);
   const [selectedButtons, setSelectedButtons] = useState({
     window: null,
@@ -133,10 +133,11 @@ const PlantModal = ({ onClick, plantId }) => {
   });
   const [plant, setPlant] = useState(null);
   const navigate = useNavigate();
+  const id = selectedPlant.id;
 
   useEffect(() => {
     axios
-      .get(`http://3.38.247.228:8080/plants/8`)
+      .get(`http://3.38.247.228:8080/plants/${id}`)
       .then((response) => {
         if (response.data.isSuccess) {
           setPlant(response.data.result);
@@ -148,7 +149,7 @@ const PlantModal = ({ onClick, plantId }) => {
       .catch((error) => {
         console.error("There was an error fetching the plant data!", error);
       });
-  }, [plantId]);
+  }, [selectedPlant]);
 
   const handleButtonClick = (type, value) => {
     setSelectedButtons((prevState) => ({
